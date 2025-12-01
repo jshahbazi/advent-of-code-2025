@@ -25,35 +25,19 @@ fn main() -> io::Result<()> {
 
                 if direction == "L" {
                     println!("Left: {}",num1);
-                    let new_pos = current_value - num1;
-                    if new_pos < 0 {
-                        let crossings = if current_value == 0 {
-                            (-new_pos) / 100
-                        } else {
-                            (-new_pos) / 100 + 1
-                        };
-                        if crossings > 0 {
-                            println!("crossings: {}", crossings); 
-                            counter += crossings;
-                        }
-                    } else if new_pos == 0 && current_value != 0 {
-                        println!("crossings: 1"); 
-                        counter += 1;
-                    }
                     let result = ((current_value - num1) % 100 + 100) % 100;
                     println!("Result: {}",result);
-               
+                    if result == 0 {
+                        counter += 1;
+                    }                    
                     current_value = result;
                 } else {
                     println!("Right: {}",num1);
-                    if current_value + num1 > 99 {
-                        let crossings = (current_value + num1) / 100;
-                        println!("crossings: {}", crossings);     
-                        counter += crossings;
-                    }                       
                     let result = ((current_value + num1) % 100 + 100) % 100;
                     println!("Result: {}",result); 
-                        
+                    if result == 0 {
+                        counter += 1;
+                    }                          
                     current_value = result;             
                 }
             }
