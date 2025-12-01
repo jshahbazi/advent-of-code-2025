@@ -19,7 +19,6 @@ fn main() -> io::Result<()> {
         for caps in pattern.captures_iter(&text) {
             if let Some(dir_match) = caps.name("direction") {
                 let direction = dir_match.as_str();
-                // println!("Matched: {}", direction);
                 let num1: i32 = caps["num1"].parse().unwrap();
                 println!("Current: {}",current_value);
 
