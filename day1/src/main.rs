@@ -22,7 +22,7 @@ fn main() -> io::Result<()> {
                 let num1: i32 = caps["num1"].parse().unwrap();
                 println!("Current: {}",current_value);
 
-
+ 
                 if direction == "L" {
                     println!("Left: {}",num1);
                     let new_pos = current_value - num1;
