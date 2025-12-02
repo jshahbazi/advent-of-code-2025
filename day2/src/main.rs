@@ -36,20 +36,42 @@ fn main() -> io::Result<()> {
                     println!("{}-{}",first_id, last_id);
 
                     for i in first_id..=last_id {
-                        if is_even_digit_length(i) {
+                        // if is_even_digit_length(i) {
                             let num_length = i.to_string().len();
-                            let half = num_length / 2;
-                            
-                            let chars: Vec<char> = i.to_string().chars().collect();
-                            let first_half: String = chars[..half].iter().collect();
-                            let second_half: String = chars[half..].iter().collect();
-                            
-                            if first_half == second_half {
-                                *found_numbers.entry(i).or_insert(0) += 1;
-                                println!("{} - halves: {} | {}", i, first_half, second_half);
-                                println!("Match!  <---------------------------");
+                            for j in (1..=num_length).filter(|&d| num_length % d == 0) {
+                                // println!("{} - {} - {}",i,num_length,j);
+
+                                // for (exponent, digit_char) in i.to_string().chars().enumerate() {
+                                //     println!("{:?}",digit_char);
+                                // }                                
+                                let chars: Vec<char> = i.to_string().chars().collect();
+                                let mut chunk_counts: HashMap<String, usize> = HashMap::new();
+                                
+                                for chunk in chars.chunks(j) {
+                                    let digits: String = chunk.iter().collect();
+                                    *chunk_counts.entry(digits.clone()).or_insert(0) += 1;
+                                    // println!("Chunk of {}: {}", j, digits);
+                                }               
+ 
+
+                                if let Some(&count) = chunk_counts.values().next() {
+                                    if chunk_counts.len() == 1 && count > 1 {
+                                        // println!("{}-{}",first_id, last_id);
+                                        *found_numbers.entry(i.clone()).or_insert(0) += 1;
+                                        // println!("{} - {} - {}",i,num_length,j);
+                                        // println!("Chunks: {:?}", chunk_counts);   
+                                        // println!("Length of Chunks: {}",chunk_counts.len());  
+                                        // println!("Match!  <---------------------------");
+                                    }
+                                }   
+                                
                             }
-                        }
+
+                            // println!("----");
+                            // for (exponent, digit_char) in i.to_string().chars().enumerate().skip(2) {
+                            //     println!("{:?}",digit_char);
+                            // }                            
+                        // }
                     }
                 }
             }  
@@ -57,11 +79,12 @@ fn main() -> io::Result<()> {
         }
 
         // println!("found_numbers: {:?}", found_numbers); 
-        println!("-----------");
         let mut sum:i64 = 0;
         for entry in found_numbers {
-            println!("{:?}",entry.0);
+            println!("{:?}",entry);
+            // if entry.1 > 1 {
             sum += entry.0;
+            // }
         }
         println!("sum: {:?}", sum); 
     }
